@@ -3,6 +3,7 @@ package com.softline.helpdesk.services;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.softline.helpdesk.domain.Chamado;
@@ -25,12 +26,14 @@ public class DBService {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private ChamadoRepository chamadoRepository;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
 	public void instanciaDB() {
-		Tecnico tec1 = new Tecnico (null, "softline","81662267746","softline@email.com","123");
+		Tecnico tec1 = new Tecnico (null, "softline","81662267746","softline@email.com", encoder.encode("123"));
 		tec1.addPerfil(Perfil.ADMIN);
 		
-		Cliente cli1 = new Cliente(null, "Linus Trovalds","81843488949", "cliente@email.com", "123");
+		Cliente cli1 = new Cliente(null, "Linus Trovalds","81843488949", "cliente@email.com", encoder.encode("123"));
 		
 		Chamado c1 = new Chamado(null, null, Prioridade.MEDIA, Status.ANDAMENTO, "chamado 01", "primeiro chamado", tec1, cli1);
 		
