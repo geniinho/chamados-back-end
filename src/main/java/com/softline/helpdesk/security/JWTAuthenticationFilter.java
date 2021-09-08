@@ -22,13 +22,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	private AuthenticationManager authenticationManager;
 	private JWTUtil jwtUtil;
-	
+
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
 		super();
 		this.authenticationManager = authenticationManager;
 		this.jwtUtil = jwtUtil;
 	}
-	
+
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
@@ -49,14 +49,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		String username = ((UserSS) authResult.getPrincipal()).getUsername();
 		String token = jwtUtil.generateToken(username);
-		
-		response.setHeader("acces-control-expose-headers", "Authorization");
-		response.setHeader("Authorization", "Bearer" + token);
+		response.setHeader("access-control-expose-headers", "Authorization");
+		response.setHeader("Authorization", "Bearer " + token);
 	}
 	
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException failed) throws IOException, ServletException {
+		
 		response.setStatus(401);
 		response.setContentType("application/json");
 		response.getWriter().append(json());
@@ -65,10 +65,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	private CharSequence json() {
 		long date = new Date().getTime();
 		return "{"
-				+"\"timestamp\":"+ date + ","
-				+"\"status\": 401, "
-				+"\"error\":\"Não autorizado\","
-				+"\"message\": \"Email ou senha inválidos\","
-				+"\"path\": \"/login\"}";
+				+ "\"timestamp\": " + date + ", " 
+				+ "\"status\": 401, "
+				+ "\"error\": \"Não autorizado\", "
+				+ "\"message\": \"Email ou senha inválidos\", "
+				+ "\"path\": \"/login\"}";
 	}
+	
 }
