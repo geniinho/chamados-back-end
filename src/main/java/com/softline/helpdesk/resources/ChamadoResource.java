@@ -48,7 +48,7 @@ public class ChamadoResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@PreAuthorize("hasAnyRole('TECNICO')")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<ChamadoDTO> update(@PathVariable Integer id,@Valid 
 			@RequestBody ChamadoDTO objDTO){
