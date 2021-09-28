@@ -42,7 +42,7 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
-	
+	@PreAuthorize("hasAnyRole('TECNICO')")
 	@PostMapping
 	public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteDTO objDTO){
 		Cliente newObj = service.create(objDTO);
@@ -50,12 +50,14 @@ public class ClienteResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@PreAuthorize("hasAnyRole('TECNICO')")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<ClienteDTO> update(@PathVariable Integer id, @Valid @RequestBody ClienteDTO objDTO){
 		Cliente obj = service.update(id, objDTO);
 		return ResponseEntity.ok().body(new ClienteDTO(obj));
 	}
 	
+	@PreAuthorize("hasAnyRole('TECNICO')")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<ClienteDTO> delete(@PathVariable Integer id){
 		service.delete(id);
